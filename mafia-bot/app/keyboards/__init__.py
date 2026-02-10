@@ -19,6 +19,7 @@ from app.keyboards.game import (
     get_action_keyboard,
 )
 from app.keyboards.admin import get_admin_keyboard
+from app.keyboards.event import get_event_selection_keyboard  # ← добавлено
 
 __all__ = [
     "get_main_menu_keyboard",
@@ -34,4 +35,5 @@ __all__ = [
     "get_vote_keyboard",
     "get_action_keyboard",
     "get_admin_keyboard",
+    "get_event_selection_keyboard",  # ← добавлено
 ]
