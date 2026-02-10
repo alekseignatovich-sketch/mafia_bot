@@ -9,7 +9,7 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from app.core.config import settings
+from app.config import settings
 from app.handlers import get_routers
 from app.middlewares import DatabaseMiddleware, I18nMiddleware, ThrottlingMiddleware
 from app.services.game_scheduler import GameScheduler
