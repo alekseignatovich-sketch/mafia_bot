@@ -13,7 +13,6 @@ if TYPE_CHECKING:
     from app.models.role import PlayerRole
 
 
-# ✅ ДОБАВЛЕНО: ActionType как Enum
 class ActionType(str):
     """Action type constants."""
     KILL = "kill"
@@ -31,14 +30,14 @@ class Action(Base):
     
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     
-    # 🔗 Обязательная связь с игрой
+    # 🔗 Связь с игрой
     game_id: Mapped[int] = mapped_column(
         BigInteger,
         ForeignKey("games.id"),
         nullable=False,
     )
     
-    # Исполнитель действия (роль игрока)
+    # Исполнитель действия
     actor_role_id: Mapped[int] = mapped_column(
         BigInteger,
         ForeignKey("player_roles.id"),
@@ -52,10 +51,10 @@ class Action(Base):
         nullable=True,
     )
     
-    # Тип действия — теперь можно использовать ActionType.KILL и т.д.
+    # Тип действия
     action_type: Mapped[str] = mapped_column(String(32), nullable=False)
     
-    # Ночь, в которую совершено действие
+    # Ночь действия
     game_night: Mapped[int] = mapped_column(Integer, nullable=False)
     
     # Время создания
@@ -77,7 +76,7 @@ class Action(Base):
     target_role: Mapped[Optional["PlayerRole"]] = relationship(
         "PlayerRole",
         foreign_keys=[target_role_id],
-        back_populates="received_actions"
+        back_populates="received_actions"  # ← ДОЛЖНО СОВПАДАТЬ С ИМЕНЕМ В PlayerRole
     )
     
     def __repr__(self) -> str:
