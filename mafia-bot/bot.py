@@ -1,4 +1,4 @@
-# /app/bot.py
+# mafia-bot/bot.py
 
 import asyncio
 import logging
@@ -9,12 +9,13 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
+# Импорты из вашего пакета app
 from app.config import settings
 from app.handlers import get_routers
 from app.middlewares import DatabaseMiddleware, I18nMiddleware, ThrottlingMiddleware
 from app.services.game_scheduler import GameScheduler
 
-# Простой логгер (без отдельного модуля)
+# Настройка логгера
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -24,8 +25,8 @@ logger = logging.getLogger(__name__)
 
 
 async def on_startup(bot: Bot) -> None:
-    """Initialize bot on startup."""
-    # Устанавливаем команды меню
+    """Инициализация при запуске."""
+    # Устанавливаем команды бота
     await bot.set_my_commands([
         BotCommand(command="start", description="Начать игру / Start game"),
         BotCommand(command="menu", description="Главное меню / Main menu"),
@@ -50,13 +51,12 @@ async def on_startup(bot: Bot) -> None:
 
 
 async def on_shutdown(bot: Bot) -> None:
-    """Cleanup on shutdown."""
+    """Очистка при завершении."""
     logger.info("Bot shutting down...")
 
 
 async def main() -> None:
-    """Main entry point."""
-    # Создаём бота
+    """Точка входа."""
     bot = Bot(
         token=settings.BOT_TOKEN,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
@@ -65,21 +65,19 @@ async def main() -> None:
     dp = Dispatcher()
     scheduler = AsyncIOScheduler(timezone="UTC")
 
-    # Регистрируем маршруты
+    # Подключаем роутеры
     for router in get_routers():
         dp.include_router(router)
 
     # Middleware
     dp.message.middleware(ThrottlingMiddleware())
     dp.callback_query.middleware(ThrottlingMiddleware())
-    
     dp.message.middleware(DatabaseMiddleware())
     dp.callback_query.middleware(DatabaseMiddleware())
-    
     dp.message.middleware(I18nMiddleware())
     dp.callback_query.middleware(I18nMiddleware())
 
-    # События жизненного цикла
+    # События
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
@@ -102,9 +100,4 @@ async def main() -> None:
 if __name__ == "__main__":
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    
-    try:
-        asyncio.run(main())
-    except Exception as e:
-        logger.exception(f"Error running bot: {e}")
-        sys.exit(1)
+    asyncio.run(main())
