@@ -1,0 +1,223 @@
+{
+  "general": {
+    "bot_name": "Mafia: Ciudad de Vivos y Sombras",
+    "welcome": "¡Bienvenido a Mafia! 🎭",
+    "choose_language": "Elige tu idioma:",
+    "language_changed": "Idioma cambiado a Español 🇪🇸",
+    "cancel": "❌ Cancelar",
+    "back": "◀️ Atrás",
+    "confirm": "✅ Confirmar",
+    "yes": "Sí",
+    "no": "No",
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error. Inténtalo más tarde.",
+    "not_found": "No encontrado",
+    "success": "¡Éxito!",
+    "access_denied": "⛔ Acceso denegado"
+  },
+  "menu": {
+    "main_title": "🏙️ Menú Principal",
+    "city": "🏙️ Ciudad",
+    "profile": "👤 Perfil",
+    "journal": "📜 Diario de Noches",
+    "settings": "⚙️ Ajustes",
+    "language": "🌍 Idioma",
+    "help": "❓ Ayuda",
+    "admin": "🔧 Panel de Admin"
+  },
+  "registration": {
+    "welcome_new": "¡Hola, {name}! 👋\n\n¡Bienvenido a **Mafia: Ciudad de Vivos y Sombras**!\n\nAquí puedes:\n🎭 Jugar partidas emocionantes\n📈 Desarrollar tu personaje\n🏆 Ganar logros\n🤝 Formar alianzas\n\n¡Presiona el botón de abajo para comenzar!",
+    "welcome_back": "¡Bienvenido de nuevo, {name}! 👋\n\n¡Nos alegra verte de nuevo en la Ciudad!",
+    "enter_name": "¿Cómo te llamas? (puedes usar tu nombre de Telegram)",
+    "use_telegram_name": "👤 Usar {name}",
+    "registration_complete": "✅ ¡Registro completado!\n\n¡Bienvenido, {name}!\n\nAhora puedes:\n• Unirte a una ciudad\n• Crear tu propia ciudad\n• Ver tu perfil",
+    "already_registered": "¡Ya estás registrado! Usa /menu para abrir el menú principal."
+  },
+  "profile": {
+    "title": "👤 Perfil del Jugador",
+    "name": "👤 Nombre: {name}",
+    "status_alive": "🩸 Estado: Vivo",
+    "status_dead": "💀 Estado: Muerto",
+    "role_hidden": "🎭 Rol: ???",
+    "level": "🔼 Nivel: {level} ({xp}/{required_xp} XP)",
+    "reputation": "🏅 Reputación: {reputation}",
+    "title": "🎖️ Título: {title}",
+    "stats": "📊 Estadísticas:\n   Partidas: {games}\n   Victorias: {wins}\n   Derrotas: {losses}\n   Tasa de victoria: {winrate}%",
+    "days_in_game": "📅 En el juego: {days} días",
+    "achievements": "🏆 Logros: {count}",
+    "not_registered": "¡No estás registrado! Usa /start"
+  },
+  "city": {
+    "title": "🏙️ Ciudad",
+    "list": "📋 Lista de Ciudades:",
+    "no_cities": "Aún no hay ciudades disponibles. ¡Crea la primera!",
+    "create_new": "➕ Crear Ciudad",
+    "join": "🚪 Unirse",
+    "leave": "🚶 Salir",
+    "info": "ℹ️ Información",
+    "players": "👥 Jugadores: {current}/{max}",
+    "status": "📊 Estado: {status}",
+    "creator": "👑 Creador: {name}",
+    "created": "📅 Creada: {date}",
+    "enter_name": "Introduce el nombre de la ciudad:",
+    "enter_description": "Introduce la descripción de la ciudad (o salta):",
+    "created_success": "✅ ¡Ciudad \"{name}\" creada!\n\nID: {id}\n\nComparte el ID con amigos para que se unan.",
+    "joined": "✅ ¡Te has unido a la ciudad \"{name}\"!",
+    "left": "Has salido de la ciudad \"{name}\".",
+    "already_member": "¡Ya estás en esta ciudad!",
+    "not_member": "¡No eres miembro de esta ciudad!",
+    "full": "¡La ciudad está llena!",
+    "enter_id": "Introduce el ID de la ciudad:",
+    "invalid_id": "¡ID de ciudad inválido!",
+    "game_in_progress": "¡Hay una partida en curso en esta ciudad!",
+    "min_players": "No hay suficientes jugadores para empezar ({current}/{min})"
+  },
+  "game": {
+    "status": {
+      "waiting": "⏳ Esperando",
+      "starting": "🚀 Iniciando",
+      "night": "🌑 Noche",
+      "day": "☀️ Día",
+      "voting": "🗳️ Votación",
+      "ended": "🏁 Terminada",
+      "paused": "⏸️ Pausada"
+    },
+    "started": "🎮 ¡El juego ha comenzado!\n\nSe han asignado roles a todos los jugadores. ¡Revisa tus mensajes privados!",
+    "ended": "🏁 ¡Juego terminado!\n\nGanador: {winner}\n\n📊 Estadísticas:\n{stats}",
+    "your_role": "🎭 Tu rol: {role}\n\n{description}\n\n{team_info}",
+    "night_started": "🌑 Caída la noche...\n\nLa ciudad duerme. Aquellos que viven de noche despiertan.",
+    "day_started": "☀️ ¡Comienza el día {day}!\n\n{deaths}\n\n¡La discusión ha comenzado! Tienes tiempo hasta {time}.",
+    "no_deaths": "Nadie murió esta noche.",
+    "deaths": "Esta noche murieron:\n{list}",
+    "voting_started": "🗳️ ¡La votación ha comenzado!\n\n¿A quién ejecutar?",
+    "vote_cast": "✅ Has votado por {target}",
+    "vote_changed": "🔄 Has cambiado tu voto a {target}",
+    "vote_results": "📊 Resultados de la votación:\n{results}\n\n{outcome}",
+    "executed": "💀 ¡{name} fue ejecutado!\nEra {role}.",
+    "no_execution": "Los votos estaban divididos. Nadie fue ejecutado.",
+    "action_required": "⏰ ¡Tienes hasta {time} para realizar una acción!",
+    "action_received": "✅ ¡Acción recibida!",
+    "ability_cooldown": "❌ Habilidad en enfriamiento: {turns} turnos"
+  },
+  "roles": {
+    "civilian": {
+      "name": "Civil",
+      "description": "Eres un ciudadano común. Tu tarea es encontrar a la mafia y ejecutarlos durante el día.",
+      "team": "🏘️ Equipo: Ciudad"
+    },
+    "mafia": {
+      "name": "Mafia",
+      "description": "Eres miembro de la familia mafiosa. Por la noche puedes matar residentes. Tu objetivo es destruir toda la ciudad.",
+      "team": "🔪 Equipo: Mafia"
+    },
+    "doctor": {
+      "name": "Doctor",
+      "description": "Eres un doctor. Cada noche puedes curar a un jugador (incluyéndote a ti mismo).",
+      "team": "🏘️ Equipo: Ciudad"
+    },
+    "sheriff": {
+      "name": "Sheriff",
+      "description": "Eres el sheriff. Cada noche puedes investigar a un jugador para ver si es mafia.",
+      "team": "🏘️ Equipo: Ciudad"
+    },
+    "maniac": {
+      "name": "Maniaco",
+      "description": "Eres un maníaco. Cada noche puedes matar a un jugador. Juegas solo.",
+      "team": "🎭 Equipo: Neutral"
+    },
+    "cupid": {
+      "name": "Cupido",
+      "description": "Eres Cupido. En la primera noche unes a dos jugadores con el amor. Si uno muere, el otro también muere.",
+      "team": "🏘️ Equipo: Ciudad"
+    },
+    "prostitute": {
+      "name": "Prostituta",
+      "description": "Eres una prostituta. Cada noche puedes bloquear las habilidades de un jugador.",
+      "team": "🏘️ Equipo: Ciudad"
+    },
+    "bodyguard": {
+      "name": "Guardaespaldas",
+      "description": "Eres un guardaespaldas. Cada noche puedes proteger a un jugador. Si es atacado, mueres tú en su lugar.",
+      "team": "🏘️ Equipo: Ciudad"
+    },
+    "don": {
+      "name": "Don",
+      "description": "Eres el Don de la mafia. Puedes investigar jugadores para ver si son sheriff. Lidera la mafia.",
+      "team": "🔪 Equipo: Mafia"
+    }
+  },
+  "actions": {
+    "kill": "🔪 Matar",
+    "heal": "💉 Curar",
+    "investigate": "🔍 Investigar",
+    "block": "🚫 Bloquear",
+    "protect": "🛡️ Proteger",
+    "matchmake": "💘 Unir",
+    "choose_target": "Elige objetivo:",
+    "investigation_result": "🔍 Resultado de investigación de {target}:\n{result}",
+    "is_mafia": "🟥 ¡Mafia!",
+    "not_mafia": "🟥 No es mafia"
+  },
+  "events": {
+    "title": "🎉 ¡Evento Especial!",
+    "inquisitor": "👁️ ¡Llega el Inquisidor!\n\n¡El Sheriff puede ver todos los roles esta noche!",
+    "mayor_election": "🗳️ ¡Elección de Alcalde!\n\nVota por un alcalde. ¡El alcalde obtiene un voto extra!",
+    "plague": "☣️ ¡Plaga en la ciudad!\n\n{player} ha perdido su habilidad esta noche.",
+    "full_moon": "🌕 ¡Luna Llena!\n\n¡El Maníaco puede matar a dos jugadores esta noche!",
+    "curfew": "🚫 ¡Toque de queda!\n\nHoy no se puede hablar durante el día.",
+    "double_trouble": "⚡ ¡Doble Problema!\n\n¡La Mafia puede matar a dos jugadores esta noche!",
+    "revelation": "📢 ¡Revelación!\n\n¡El rol de {player} ha sido revelado: {role}!"
+  },
+  "achievements": {
+    "first_blood": {
+      "name": "Primera Sangre",
+      "description": "Mata a un jugador por la noche por primera vez"
+    },
+    "savior": {
+      "name": "Salvador",
+      "description": "Cura a 10 jugadores"
+    },
+    "detective": {
+      "name": "Detective",
+      "description": "Identifica correctamente a 5 mafiosos"
+    },
+    "survivor": {
+      "name": "Superviviente",
+      "description": "Sobrevive 10 noches en una partida"
+    },
+    "legend": {
+      "name": "Leyenda",
+      "description": "Alcanza el nivel 10"
+    }
+  },
+  "admin": {
+    "title": "🔧 Panel de Admin",
+    "new_city": "➕ Nueva Ciudad",
+    "add_role": "🎭 Añadir Rol",
+    "start_event": "🎉 Iniciar Evento",
+    "stats": "📊 Estadísticas",
+    "broadcast": "📢 Difusión",
+    "enter_city_name": "Introduce el nombre de la nueva ciudad:",
+    "city_created": "✅ ¡Ciudad creada!\nID: {id}",
+    "select_event": "Selecciona evento:",
+    "event_started": "✅ ¡Evento {event} iniciado en la ciudad {city}!",
+    "stats_title": "📊 Estadísticas del Bot:",
+    "total_players": "👤 Jugadores totales: {count}",
+    "total_cities": "🏙️ Ciudades totales: {count}",
+    "active_games": "🎮 Partidas activas: {count}",
+    "enter_message": "Introduce el mensaje para difundir:",
+    "broadcast_sent": "✅ Mensaje enviado a {count} jugadores"
+  },
+  "errors": {
+    "not_registered": "❌ ¡No estás registrado! Usa /start",
+    "game_not_found": "❌ ¡Partida no encontrada!",
+    "not_your_turn": "❌ ¡No es tu turno!",
+    "already_voted": "❌ ¡Ya has votado!",
+    "invalid_target": "❌ ¡Objetivo inválido!",
+    "target_dead": "❌ ¡El objetivo ya está muerto!",
+    "target_yourself": "❌ ¡No puedes elegirte a ti mismo!",
+    "no_permission": "❌ ¡No tienes permiso!",
+    "cooldown": "❌ Espera {seconds} segundos",
+    "maintenance": "🔧 Mantenimiento. Inténtalo más tarde."
+  }
+}

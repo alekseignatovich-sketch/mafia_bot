@@ -1,0 +1,223 @@
+{
+  "general": {
+    "bot_name": "Mafia: City of Living and Shadows",
+    "welcome": "Welcome to Mafia! 🎭",
+    "choose_language": "Choose your language:",
+    "language_changed": "Language changed to English 🇬🇧",
+    "cancel": "❌ Cancel",
+    "back": "◀️ Back",
+    "confirm": "✅ Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again later.",
+    "not_found": "Not found",
+    "success": "Success!",
+    "access_denied": "⛔ Access denied"
+  },
+  "menu": {
+    "main_title": "🏙️ Main Menu",
+    "city": "🏙️ City",
+    "profile": "👤 Profile",
+    "journal": "📜 Night Journal",
+    "settings": "⚙️ Settings",
+    "language": "🌍 Language",
+    "help": "❓ Help",
+    "admin": "🔧 Admin Panel"
+  },
+  "registration": {
+    "welcome_new": "Hello, {name}! 👋\n\nWelcome to **Mafia: City of Living and Shadows**!\n\nHere you can:\n🎭 Play exciting games\n📈 Develop your character\n🏆 Earn achievements\n🤝 Form alliances\n\nPress the button below to start!",
+    "welcome_back": "Welcome back, {name}! 👋\n\nGlad to see you again in the City!",
+    "enter_name": "What's your name? (you can use your Telegram name)",
+    "use_telegram_name": "👤 Use {name}",
+    "registration_complete": "✅ Registration complete!\n\nWelcome, {name}!\n\nNow you can:\n• Join a city\n• Create your own city\n• View your profile",
+    "already_registered": "You're already registered! Use /menu to open the main menu."
+  },
+  "profile": {
+    "title": "👤 Player Profile",
+    "name": "👤 Name: {name}",
+    "status_alive": "🩸 Status: Alive",
+    "status_dead": "💀 Status: Dead",
+    "role_hidden": "🎭 Role: ???",
+    "level": "🔼 Level: {level} ({xp}/{required_xp} XP)",
+    "reputation": "🏅 Reputation: {reputation}",
+    "title": "🎖️ Title: {title}",
+    "stats": "📊 Stats:\n   Games: {games}\n   Wins: {wins}\n   Losses: {losses}\n   Winrate: {winrate}%",
+    "days_in_game": "📅 In game: {days} days",
+    "achievements": "🏆 Achievements: {count}",
+    "not_registered": "You're not registered! Use /start"
+  },
+  "city": {
+    "title": "🏙️ City",
+    "list": "📋 City List:",
+    "no_cities": "No cities available yet. Create the first one!",
+    "create_new": "➕ Create City",
+    "join": "🚪 Join",
+    "leave": "🚶 Leave",
+    "info": "ℹ️ Info",
+    "players": "👥 Players: {current}/{max}",
+    "status": "📊 Status: {status}",
+    "creator": "👑 Creator: {name}",
+    "created": "📅 Created: {date}",
+    "enter_name": "Enter city name:",
+    "enter_description": "Enter city description (or skip):",
+    "created_success": "✅ City \"{name}\" created!\n\nID: {id}\n\nShare the ID with friends so they can join.",
+    "joined": "✅ You joined city \"{name}\"!",
+    "left": "You left city \"{name}\".",
+    "already_member": "You're already in this city!",
+    "not_member": "You're not a member of this city!",
+    "full": "City is full!",
+    "enter_id": "Enter city ID:",
+    "invalid_id": "Invalid city ID!",
+    "game_in_progress": "A game is in progress in this city!",
+    "min_players": "Not enough players to start ({current}/{min})"
+  },
+  "game": {
+    "status": {
+      "waiting": "⏳ Waiting",
+      "starting": "🚀 Starting",
+      "night": "🌑 Night",
+      "day": "☀️ Day",
+      "voting": "🗳️ Voting",
+      "ended": "🏁 Ended",
+      "paused": "⏸️ Paused"
+    },
+    "started": "🎮 Game started!\n\nRoles have been assigned to all players. Check your private messages!",
+    "ended": "🏁 Game over!\n\nWinner: {winner}\n\n📊 Statistics:\n{stats}",
+    "your_role": "🎭 Your role: {role}\n\n{description}\n\n{team_info}",
+    "night_started": "🌑 Night falls...\n\nThe city sleeps. Those who live by night awaken.",
+    "day_started": "☀️ Day {day} begins!\n\n{deaths}\n\nDiscussion has started! You have time until {time}.",
+    "no_deaths": "No one died this night.",
+    "deaths": "This night died:\n{list}",
+    "voting_started": "🗳️ Voting has started!\n\nWho to execute?",
+    "vote_cast": "✅ You voted for {target}",
+    "vote_changed": "🔄 You changed your vote to {target}",
+    "vote_results": "📊 Voting results:\n{results}\n\n{outcome}",
+    "executed": "💀 {name} was executed!\nThey were {role}.",
+    "no_execution": "Votes were split. No one was executed.",
+    "action_required": "⏰ You have until {time} to take action!",
+    "action_received": "✅ Action received!",
+    "ability_cooldown": "❌ Ability on cooldown: {turns} turns"
+  },
+  "roles": {
+    "civilian": {
+      "name": "Civilian",
+      "description": "You are an ordinary city resident. Your task is to find the mafia and execute them during the day.",
+      "team": "🏘️ Team: Town"
+    },
+    "mafia": {
+      "name": "Mafia",
+      "description": "You are a member of the mafia family. At night you can kill residents. Your goal is to destroy the entire city.",
+      "team": "🔪 Team: Mafia"
+    },
+    "doctor": {
+      "name": "Doctor",
+      "description": "You are a doctor. Each night you can heal one player (including yourself).",
+      "team": "🏘️ Team: Town"
+    },
+    "sheriff": {
+      "name": "Sheriff",
+      "description": "You are the sheriff. Each night you can check one player to see if they are mafia.",
+      "team": "🏘️ Team: Town"
+    },
+    "maniac": {
+      "name": "Maniac",
+      "description": "You are a maniac. Each night you can kill one player. You play alone.",
+      "team": "🎭 Team: Neutral"
+    },
+    "cupid": {
+      "name": "Cupid",
+      "description": "You are Cupid. On the first night, you bind two players with love. If one dies, the other dies too.",
+      "team": "🏘️ Team: Town"
+    },
+    "prostitute": {
+      "name": "Prostitute",
+      "description": "You are a prostitute. Each night you can block one player's abilities.",
+      "team": "🏘️ Team: Town"
+    },
+    "bodyguard": {
+      "name": "Bodyguard",
+      "description": "You are a bodyguard. Each night you can protect one player. If they are attacked, you die instead.",
+      "team": "🏘️ Team: Town"
+    },
+    "don": {
+      "name": "Don",
+      "description": "You are the mafia don. You can check players for being the sheriff. Lead the mafia.",
+      "team": "🔪 Team: Mafia"
+    }
+  },
+  "actions": {
+    "kill": "🔪 Kill",
+    "heal": "💉 Heal",
+    "investigate": "🔍 Investigate",
+    "block": "🚫 Block",
+    "protect": "🛡️ Protect",
+    "matchmake": "💘 Match",
+    "choose_target": "Choose target:",
+    "investigation_result": "🔍 Investigation result for {target}:\n{result}",
+    "is_mafia": "🟥 Mafia!",
+    "not_mafia": "🟩 Not mafia"
+  },
+  "events": {
+    "title": "🎉 Special Event!",
+    "inquisitor": "👁️ The Inquisitor arrives!\n\nThe Sheriff can see all roles tonight!",
+    "mayor_election": "🗳️ Mayor Election!\n\nVote for a mayor. The mayor gets an extra vote!",
+    "plague": "☣️ Plague in the city!\n\n{player} lost their ability for this night.",
+    "full_moon": "🌕 Full Moon!\n\nThe Maniac can kill two players tonight!",
+    "curfew": "🚫 Curfew!\n\nNo talking allowed during the day today.",
+    "double_trouble": "⚡ Double Trouble!\n\nThe Mafia can kill two players tonight!",
+    "revelation": "📢 Revelation!\n\n{player}'s role is revealed: {role}!"
+  },
+  "achievements": {
+    "first_blood": {
+      "name": "First Blood",
+      "description": "Kill a player at night for the first time"
+    },
+    "savior": {
+      "name": "Savior",
+      "description": "Heal 10 players"
+    },
+    "detective": {
+      "name": "Detective",
+      "description": "Correctly identify 5 mafia members"
+    },
+    "survivor": {
+      "name": "Survivor",
+      "description": "Survive 10 nights in one game"
+    },
+    "legend": {
+      "name": "Legend",
+      "description": "Reach level 10"
+    }
+  },
+  "admin": {
+    "title": "🔧 Admin Panel",
+    "new_city": "➕ New City",
+    "add_role": "🎭 Add Role",
+    "start_event": "🎉 Start Event",
+    "stats": "📊 Statistics",
+    "broadcast": "📢 Broadcast",
+    "enter_city_name": "Enter new city name:",
+    "city_created": "✅ City created!\nID: {id}",
+    "select_event": "Select event:",
+    "event_started": "✅ Event {event} started in city {city}!",
+    "stats_title": "📊 Bot Statistics:",
+    "total_players": "👤 Total players: {count}",
+    "total_cities": "🏙️ Total cities: {count}",
+    "active_games": "🎮 Active games: {count}",
+    "enter_message": "Enter message to broadcast:",
+    "broadcast_sent": "✅ Message sent to {count} players"
+  },
+  "errors": {
+    "not_registered": "❌ You're not registered! Use /start",
+    "game_not_found": "❌ Game not found!",
+    "not_your_turn": "❌ It's not your turn!",
+    "already_voted": "❌ You already voted!",
+    "invalid_target": "❌ Invalid target!",
+    "target_dead": "❌ Target is already dead!",
+    "target_yourself": "❌ Can't target yourself!",
+    "no_permission": "❌ You don't have permission!",
+    "cooldown": "❌ Wait {seconds} seconds",
+    "maintenance": "🔧 Maintenance. Please try again later."
+  }
+}
