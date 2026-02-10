@@ -5,7 +5,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 import asyncio
 from app.models.database import AsyncSessionLocal
 from app.models.game import Game
-from app.models.player_role import PlayerRole
+from app.models.role import PlayerRole
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
