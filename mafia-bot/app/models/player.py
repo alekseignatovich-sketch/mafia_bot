@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Optional
 
-from sqlalchemy import DateTime, BigInteger, Boolean, DateTime, Integer, String, Text
+from sqlalchemy import DateTime, BigInteger, Boolean, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
@@ -68,6 +68,7 @@ class Player(Base):
     )
     roles: Mapped[List["PlayerRole"]] = relationship(
         "PlayerRole",
+        foreign_keys="[PlayerRole.player_id]",  # ← КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ
         back_populates="player",
         lazy="selectin",
         cascade="all, delete-orphan",
