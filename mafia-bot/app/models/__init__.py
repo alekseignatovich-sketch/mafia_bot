@@ -7,7 +7,7 @@ from app.models.game import Game, GameStatus
 from app.models.role import Role, RoleType, PlayerRole
 from app.models.action import Action, ActionType
 from app.models.vote import Vote
-from app.models.event import Event, EventType
+from app.models.event import Boolean, Event, EventType
 from app.models.achievement import Achievement, PlayerAchievement
 
 __all__ = [
