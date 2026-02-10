@@ -113,13 +113,32 @@ class PlayerRole(Base):
         foreign_keys=[player_id],
         back_populates="roles"
     )
+    
+    # Опционально: связь с "любовником" (если используется)
+    # lover: Mapped[Optional["Player"]] = relationship(
+    #     "Player",
+    #     foreign_keys=[lover_id],
+    #     back_populates="lovers"  # ← требует добавления в Player
+    # )
+    
     game: Mapped["Game"] = relationship("Game", back_populates="roles")
     role: Mapped["Role"] = relationship("Role", back_populates="player_roles")
+    
+    # Связь с действиями, где ЭТОТ PlayerRole — исполнитель
     actions: Mapped[List["Action"]] = relationship(
         "Action",
-        back_populates="player_role",
+        foreign_keys="[Action.actor_role_id]",
+        back_populates="actor_role",
         lazy="selectin",
     )
+    
+    # Опционально: связь с действиями, где ЭТОТ PlayerRole — цель
+    # received_actions: Mapped[List["Action"]] = relationship(
+    #     "Action",
+    #     foreign_keys="[Action.target_role_id]",
+    #     back_populates="target_role",
+    #     lazy="selectin",
+    # )
     
     def __repr__(self) -> str:
         return f"<PlayerRole(player={self.player_id}, role={self.role_id}, alive={self.is_alive})>"
