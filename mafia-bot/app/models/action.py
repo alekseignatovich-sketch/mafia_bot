@@ -13,6 +13,17 @@ if TYPE_CHECKING:
     from app.models.role import PlayerRole
 
 
+# ✅ ДОБАВЛЕНО: ActionType как Enum
+class ActionType(str):
+    """Action type constants."""
+    KILL = "kill"
+    HEAL = "heal"
+    INVESTIGATE = "investigate"
+    PROTECT = "protect"
+    BLOCK = "block"
+    REVEAL = "reveal"
+
+
 class Action(Base):
     """Represents an in-game action (kill, heal, investigate, etc.)."""
     
@@ -41,7 +52,7 @@ class Action(Base):
         nullable=True,
     )
     
-    # Тип действия
+    # Тип действия — теперь можно использовать ActionType.KILL и т.д.
     action_type: Mapped[str] = mapped_column(String(32), nullable=False)
     
     # Ночь, в которую совершено действие
@@ -55,10 +66,7 @@ class Action(Base):
     )
     
     # 🔁 Связи
-    game: Mapped["Game"] = relationship(
-        "Game",
-        back_populates="actions"
-    )
+    game: Mapped["Game"] = relationship("Game", back_populates="actions")
     
     actor_role: Mapped["PlayerRole"] = relationship(
         "PlayerRole",
@@ -69,7 +77,7 @@ class Action(Base):
     target_role: Mapped[Optional["PlayerRole"]] = relationship(
         "PlayerRole",
         foreign_keys=[target_role_id],
-        back_populates="received_actions"  # ← опционально, см. ниже
+        back_populates="received_actions"
     )
     
     def __repr__(self) -> str:
