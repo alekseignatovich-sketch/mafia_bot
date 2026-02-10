@@ -114,15 +114,15 @@ class PlayerRole(Base):
         back_populates="roles"
     )
     
-    # Опционально: связь с "любовником" (если используется)
-    # lover: Mapped[Optional["Player"]] = relationship(
-    #     "Player",
-    #     foreign_keys=[lover_id],
-    #     back_populates="lovers"  # ← требует добавления в Player
-    # )
+    game: Mapped["Game"] = relationship(
+        "Game",
+        back_populates="roles"
+    )
     
-    game: Mapped["Game"] = relationship("Game", back_populates="roles")
-    role: Mapped["Role"] = relationship("Role", back_populates="player_roles")
+    role: Mapped["Role"] = relationship(
+        "Role",
+        back_populates="player_roles"
+    )
     
     # Связь с действиями, где ЭТОТ PlayerRole — исполнитель
     actions: Mapped[List["Action"]] = relationship(
@@ -130,6 +130,7 @@ class PlayerRole(Base):
         foreign_keys="[Action.actor_role_id]",
         back_populates="actor_role",
         lazy="selectin",
+        cascade="all, delete-orphan",
     )
     
     # Опционально: связь с действиями, где ЭТОТ PlayerRole — цель
