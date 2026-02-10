@@ -4,7 +4,7 @@ import enum
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Optional
 
-from sqlalchemy import BigInteger, Boolean, DateTime, Enum, ForeignKey, Integer, String, Text
+from sqlalchemy import BigInteger, Boolean, DateTime, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
@@ -108,7 +108,11 @@ class PlayerRole(Base):
     death_cause: Mapped[Optional[str]] = mapped_column(String(32), nullable=True)
     
     # Relationships
-    player: Mapped["Player"] = relationship("Player", foreign_keys=[player_id], back_populates="roles")
+    player: Mapped["Player"] = relationship(
+        "Player",
+        foreign_keys=[player_id],
+        back_populates="roles"
+    )
     game: Mapped["Game"] = relationship("Game", back_populates="roles")
     role: Mapped["Role"] = relationship("Role", back_populates="player_roles")
     actions: Mapped[List["Action"]] = relationship(
