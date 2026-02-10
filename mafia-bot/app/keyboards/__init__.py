@@ -6,6 +6,7 @@ from app.keyboards.main import (
     get_cancel_keyboard,
     get_confirm_keyboard,
     get_back_keyboard,
+    get_registration_keyboard,  # ← должна быть здесь
 )
 from app.keyboards.city import (
     get_city_menu_keyboard,
@@ -20,7 +21,6 @@ from app.keyboards.game import (
 )
 from app.keyboards.admin import get_admin_keyboard
 from app.keyboards.event import get_event_selection_keyboard
-from app.keyboards.registration import get_registration_keyboard  # ← добавлено
 
 __all__ = [
     "get_main_menu_keyboard",
