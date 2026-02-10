@@ -9,7 +9,7 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-# Импорты из вашего пакета app
+# Импорты из вашего пакета
 from app.config import settings
 from app.handlers import get_routers
 from app.middlewares import DatabaseMiddleware, I18nMiddleware, ThrottlingMiddleware
@@ -25,8 +25,8 @@ logger = logging.getLogger(__name__)
 
 
 async def on_startup(bot: Bot) -> None:
-    """Инициализация при запуске."""
-    # Устанавливаем команды бота
+    """Инициализация при запуске бота."""
+    # Устанавливаем команды меню
     await bot.set_my_commands([
         BotCommand(command="start", description="Начать игру / Start game"),
         BotCommand(command="menu", description="Главное меню / Main menu"),
@@ -36,7 +36,7 @@ async def on_startup(bot: Bot) -> None:
         BotCommand(command="help", description="Помощь / Help"),
     ])
 
-    # Инициализация БД
+    # Инициализация базы данных
     from app.models.database import init_db, AsyncSessionLocal
     await init_db()
 
@@ -51,37 +51,40 @@ async def on_startup(bot: Bot) -> None:
 
 
 async def on_shutdown(bot: Bot) -> None:
-    """Очистка при завершении."""
+    """Очистка при завершении работы."""
     logger.info("Bot shutting down...")
 
 
 async def main() -> None:
-    """Точка входа."""
+    """Основная точка входа."""
+    # Создаём бота с правильными настройками
     bot = Bot(
         token=settings.BOT_TOKEN,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
-    
+
     dp = Dispatcher()
     scheduler = AsyncIOScheduler(timezone="UTC")
 
-    # Подключаем роутеры
+    # Подключаем все роутеры
     for router in get_routers():
         dp.include_router(router)
 
     # Middleware
     dp.message.middleware(ThrottlingMiddleware())
     dp.callback_query.middleware(ThrottlingMiddleware())
+
     dp.message.middleware(DatabaseMiddleware())
     dp.callback_query.middleware(DatabaseMiddleware())
+
     dp.message.middleware(I18nMiddleware())
     dp.callback_query.middleware(I18nMiddleware())
 
-    # События
+    # События жизненного цикла
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
-    # Планировщик
+    # Планировщик игровых событий
     game_scheduler = GameScheduler(scheduler)
     game_scheduler.start()
     logger.info("Scheduler started")
