@@ -9,45 +9,57 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.models.base import Base
 
 if TYPE_CHECKING:
+    from app.models.game import Game
     from app.models.role import PlayerRole
 
 
-class ActionType(str):
-    """Action type constants."""
-    KILL = "kill"
-    HEAL = "heal"
-    INVESTIGATE = "investigate"
-    PROTECT = "protect"
-
-
 class Action(Base):
+    """Represents an in-game action (kill, heal, investigate, etc.)."""
+    
     __tablename__ = "actions"
     
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     
-    # Кто совершил действие
+    # 🔗 Обязательная связь с игрой
+    game_id: Mapped[int] = mapped_column(
+        BigInteger,
+        ForeignKey("games.id"),
+        nullable=False,
+    )
+    
+    # Исполнитель действия (роль игрока)
     actor_role_id: Mapped[int] = mapped_column(
         BigInteger,
         ForeignKey("player_roles.id"),
         nullable=False,
     )
     
-    # На кого направлено (опционально)
+    # Цель действия (опционально)
     target_role_id: Mapped[Optional[int]] = mapped_column(
         BigInteger,
         ForeignKey("player_roles.id"),
         nullable=True,
     )
     
+    # Тип действия
     action_type: Mapped[str] = mapped_column(String(32), nullable=False)
+    
+    # Ночь, в которую совершено действие
     game_night: Mapped[int] = mapped_column(Integer, nullable=False)
+    
+    # Время создания
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=datetime.utcnow,
         nullable=False,
     )
     
-    # Связи
+    # 🔁 Связи
+    game: Mapped["Game"] = relationship(
+        "Game",
+        back_populates="actions"
+    )
+    
     actor_role: Mapped["PlayerRole"] = relationship(
         "PlayerRole",
         foreign_keys=[actor_role_id],
@@ -57,7 +69,7 @@ class Action(Base):
     target_role: Mapped[Optional["PlayerRole"]] = relationship(
         "PlayerRole",
         foreign_keys=[target_role_id],
-        back_populates="received_actions"  # ← если нужно
+        back_populates="received_actions"  # ← опционально, см. ниже
     )
     
     def __repr__(self) -> str:
