@@ -13,9 +13,14 @@ from app.config import settings
 from app.handlers import get_routers
 from app.middlewares import DatabaseMiddleware, I18nMiddleware, ThrottlingMiddleware
 from app.services.game_scheduler import GameScheduler
-from app.utils.logger import get_logger
 
-logger = get_logger(__name__)
+# Простой логгер (без отдельного модуля)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    stream=sys.stdout
+)
+logger = logging.getLogger(__name__)
 
 
 async def on_startup(bot: Bot) -> None:
@@ -30,20 +35,18 @@ async def on_startup(bot: Bot) -> None:
         BotCommand(command="help", description="Помощь / Help"),
     ])
 
-    # Инициализация БД и данных
-    from app.models.database import init_db
-    from app.services.role_manager import RoleManager
-    from app.services.achievement_manager import AchievementManager
-
+    # Инициализация БД
+    from app.models.database import init_db, AsyncSessionLocal
     await init_db()
-    role_manager = RoleManager()
-    await role_manager.initialize_default_roles()
-    achievement_manager = AchievementManager()
-    await achievement_manager.initialize_default_achievements()
+
+    # Инициализация ролей
+    from app.services.role_manager import RoleManager
+    async with AsyncSessionLocal() as session:
+        role_manager = RoleManager(session)
+        await role_manager.initialize_default_roles()
 
     logger.info("Database initialized")
     logger.info("Default roles initialized")
-    logger.info("Achievements initialized")
 
 
 async def on_shutdown(bot: Bot) -> None:
@@ -53,7 +56,7 @@ async def on_shutdown(bot: Bot) -> None:
 
 async def main() -> None:
     """Main entry point."""
-    # Создаём бота с правильными настройками
+    # Создаём бота
     bot = Bot(
         token=settings.BOT_TOKEN,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
@@ -62,11 +65,11 @@ async def main() -> None:
     dp = Dispatcher()
     scheduler = AsyncIOScheduler(timezone="UTC")
 
-    # Регистрируем обработчики
+    # Регистрируем маршруты
     for router in get_routers():
         dp.include_router(router)
 
-    # Регистрируем middleware
+    # Middleware
     dp.message.middleware(ThrottlingMiddleware())
     dp.callback_query.middleware(ThrottlingMiddleware())
     
@@ -76,11 +79,11 @@ async def main() -> None:
     dp.message.middleware(I18nMiddleware())
     dp.callback_query.middleware(I18nMiddleware())
 
-    # Регистрируем события жизненного цикла
+    # События жизненного цикла
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
-    # Запускаем планировщик задач
+    # Планировщик
     game_scheduler = GameScheduler(scheduler)
     game_scheduler.start()
     logger.info("Scheduler started")
@@ -92,7 +95,7 @@ async def main() -> None:
     except KeyboardInterrupt:
         logger.info("Received keyboard interrupt")
     finally:
-        scheduler.shutdown()
+        await scheduler.shutdown()
         await bot.session.close()
 
 
