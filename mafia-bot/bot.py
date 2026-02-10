@@ -1,140 +1,107 @@
-"""Main bot entry point."""
+# /app/bot.py
 
 import asyncio
 import logging
-
+import sys
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.types import BotCommand
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from app.config import settings
+from app.core.config import settings
 from app.handlers import get_routers
 from app.middlewares import DatabaseMiddleware, I18nMiddleware, ThrottlingMiddleware
-from app.models.database import init_db
-from app.services.role_manager import RoleManager
-from app.services.scheduler import scheduler
-from app.services.xp_manager import XPManager
+from app.services.game_scheduler import GameScheduler
+from app.utils.logger import get_logger
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO if not settings.DEBUG else logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 async def on_startup(bot: Bot) -> None:
-    """Actions to perform on bot startup."""
-    logger.info("Bot starting up...")
-    
-    # Initialize database
-    await init_db()
-    logger.info("Database initialized")
-    
-    # Initialize roles and achievements
-    from app.models.database import AsyncSessionLocal
-    async with AsyncSessionLocal() as session:
-        role_manager = RoleManager(session)
-        await role_manager.initialize_default_roles()
-        logger.info("Default roles initialized")
-        
-        xp_manager = XPManager(session)
-        await xp_manager.initialize_achievements()
-        logger.info("Achievements initialized")
-    
-    # Start scheduler
-    scheduler.start()
-    logger.info("Scheduler started")
-    
-    # Set bot commands
+    """Initialize bot on startup."""
+    # Устанавливаем команды меню
     await bot.set_my_commands([
-        ("start", "Начать игру / Start game"),
-        ("menu", "Главное меню / Main menu"),
-        ("profile", "Профиль / Profile"),
-        ("city", "Управление городами / City management"),
-        ("language", "Сменить язык / Change language"),
-        ("help", "Помощь / Help"),
+        BotCommand(command="start", description="Начать игру / Start game"),
+        BotCommand(command="menu", description="Главное меню / Main menu"),
+        BotCommand(command="profile", description="Профиль / Profile"),
+        BotCommand(command="city", description="Управление городами / City management"),
+        BotCommand(command="language", description="Сменить язык / Change language"),
+        BotCommand(command="help", description="Помощь / Help"),
     ])
-    
-    logger.info("Bot startup complete!")
+
+    # Инициализация БД и данных
+    from app.models.database import init_db
+    from app.services.role_manager import RoleManager
+    from app.services.achievement_manager import AchievementManager
+
+    await init_db()
+    role_manager = RoleManager()
+    await role_manager.initialize_default_roles()
+    achievement_manager = AchievementManager()
+    await achievement_manager.initialize_default_achievements()
+
+    logger.info("Database initialized")
+    logger.info("Default roles initialized")
+    logger.info("Achievements initialized")
 
 
 async def on_shutdown(bot: Bot) -> None:
-    """Actions to perform on bot shutdown."""
+    """Cleanup on shutdown."""
     logger.info("Bot shutting down...")
-    
-    # Shutdown scheduler
-    scheduler.shutdown()
-    logger.info("Scheduler stopped")
-    
-    # Close bot session
-    await bot.session.close()
-    logger.info("Bot shutdown complete!")
 
 
 async def main() -> None:
     """Main entry point."""
-    # Initialize bot and dispatcher
-    bot = Bot(token=settings.BOT_TOKEN, parse_mode=ParseMode.HTML)
-    storage = MemoryStorage()
-    dp = Dispatcher(storage=storage)
+    # Создаём бота с правильными настройками
+    bot = Bot(
+        token=settings.BOT_TOKEN,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    )
     
-    # Register middlewares
-    dp.message.middleware(ThrottlingMiddleware())
-    dp.message.middleware(DatabaseMiddleware())
-    dp.message.middleware(I18nMiddleware())
-    
-    dp.callback_query.middleware(DatabaseMiddleware())
-    dp.callback_query.middleware(I18nMiddleware())
-    
-    # Register routers
-    routers = get_routers()
-    for router in routers:
+    dp = Dispatcher()
+    scheduler = AsyncIOScheduler(timezone="UTC")
+
+    # Регистрируем обработчики
+    for router in get_routers():
         dp.include_router(router)
+
+    # Регистрируем middleware
+    dp.message.middleware(ThrottlingMiddleware())
+    dp.callback_query.middleware(ThrottlingMiddleware())
     
-    # Register startup and shutdown handlers
+    dp.message.middleware(DatabaseMiddleware())
+    dp.callback_query.middleware(DatabaseMiddleware())
+    
+    dp.message.middleware(I18nMiddleware())
+    dp.callback_query.middleware(I18nMiddleware())
+
+    # Регистрируем события жизненного цикла
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
-    
-    # Start polling
+
+    # Запускаем планировщик задач
+    game_scheduler = GameScheduler(scheduler)
+    game_scheduler.start()
+    logger.info("Scheduler started")
+
+    logger.info("Bot starting up...")
+
     try:
-        if settings.is_webhook_mode:
-            # Use webhook mode
-            from aiogram.webhook.aiohttp_server import (
-                SimpleRequestHandler,
-                setup_application,
-            )
-            from aiohttp import web
-            
-            app = web.Application()
-            webhook_handler = SimpleRequestHandler(
-                dispatcher=dp,
-                bot=bot,
-            )
-            webhook_handler.register(app, path=settings.WEBHOOK_PATH)
-            setup_application(app, dp, bot=bot)
-            
-            # Set webhook
-            await bot.set_webhook(settings.webhook_url)
-            
-            # Run web server
-            runner = web.AppRunner(app)
-            await runner.setup()
-            site = web.TCPSite(runner, "0.0.0.0", 8080)
-            await site.start()
-            
-            logger.info(f"Webhook server started on {settings.webhook_url}")
-            
-            # Keep running
-            while True:
-                await asyncio.sleep(3600)
-        else:
-            # Use polling mode
-            await dp.start_polling(bot)
-    except Exception as e:
-        logger.error(f"Error running bot: {e}")
-        raise
+        await dp.start_polling(bot)
+    except KeyboardInterrupt:
+        logger.info("Received keyboard interrupt")
+    finally:
+        scheduler.shutdown()
+        await bot.session.close()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    if sys.platform == "win32":
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    
+    try:
+        asyncio.run(main())
+    except Exception as e:
+        logger.exception(f"Error running bot: {e}")
+        sys.exit(1)
